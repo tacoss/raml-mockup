@@ -1,0 +1,22 @@
+{
+  "name": "raml-kit",
+  "version": "0.0.1",
+  "description": "Painless RAML development",
+  "bin": {
+    "raml": "bin/cli.js"
+  },
+  "author": {
+    "name": "Alvaro Cabrera",
+    "email": "pateketrueke@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.9.5",
+    "jsonpointer": "^1.1.0",
+    "lodash": "^2.4.1",
+    "minimist": "^1.1.0",
+    "raml-parser": "^0.8.7",
+    "ramlev": "^0.1.6",
+    "refaker": "^0.1.5"
+  }
+}
