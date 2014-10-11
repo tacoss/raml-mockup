@@ -25,11 +25,11 @@ var cmd  = argv._.shift(),
     input = argv._.shift();
 
 if ('start' === cmd) {
-  actions.server(input, params);
+  actions('server')(input, params);
 } else if ('test' === cmd) {
-  actions.test(input, params);
+  actions('test')(input, params);
 } else if ('init' === cmd) {
-  actions.init(input, params);
+  actions('init')(input, params);
 } else {
-  actions.help();
+  actions('help')();
 }
