@@ -35,7 +35,7 @@ function usage(header) {
   }
 
   message.push('Usage:');
-  message.push('  raml-server src/index.raml [OPTIONS]');
+  message.push('  raml-mockup src/index.raml [OPTIONS]');
   message.push('Options:');
   message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
   message.push('  -f, --fakeroot   Used to resolve $ref\'s using a directory as absolute URI');
