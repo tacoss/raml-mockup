@@ -1,0 +1,22 @@
+#%RAML 0.8
+title: Sample API
+version: v1
+mediaType:  application/json
+
+schemas:
+  - song: !include ./schemas/song-schema.json
+  - songs: !include ./schemas/songs-schema.json
+
+/songs:
+  get:
+    responses:
+      200:
+        body:
+          schema: songs
+
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            schema: song
