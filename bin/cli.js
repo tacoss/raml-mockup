@@ -36,9 +36,13 @@ function usage(header) {
 
   message.push('Usage:');
   message.push('  raml-mockup src/index.raml [OPTIONS]');
+
   message.push('Options:');
-  message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
+  message.push('  -p, --port       The port used for exposing the faked-api');
   message.push('  -f, --fakeroot   Used to resolve $ref\'s using a directory as absolute URI');
+  message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
+  message.push('  -v, --version    Show the current version');
+  message.push('  -h, --help       Display this help');
 
   return message.join('\n');
 }
