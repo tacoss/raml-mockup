@@ -11,6 +11,7 @@ var argv = minimist(process.argv.slice(2), {
     v: 'version',
     d: 'directory',
     f: 'fakeroot',
+    r: 'formats',
     p: 'port'
   },
   string: ['port', 'fakeroot', 'directory'],
@@ -39,6 +40,7 @@ function usage(header) {
 
   message.push('Options:');
   message.push('  -p, --port       The port used for exposing the faked-api');
+  message.push('  -r, --formats    Require CommonJS-module for custom format generators');
   message.push('  -f, --fakeroot   Used to resolve $ref\'s using a directory as absolute URI');
   message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
   message.push('  -v, --version    Show the current version');
@@ -73,6 +75,7 @@ if (argv.version) {
   mock_server({
     raml: file,
     port: argv.port,
+    formats: argv.formats,
     fakeroot: argv.fakeroot,
     directory: argv.directory
   }, function(err) {

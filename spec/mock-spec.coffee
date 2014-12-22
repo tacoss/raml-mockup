@@ -22,3 +22,8 @@ describe 'API service', ->
       cmd './spec/fixtures/api.raml -d ./spec/fixtures/schemas -f http://json-schema.org -p 5000', true, ->
         expect(cmd.stdout).toContain 'Listening at port 5000'
         done()
+
+    it 'should register custom formats for the mock-server', (done) ->
+      cmd './spec/fixtures/api.raml -d ./spec/fixtures/schemas -f http://json-schema.org -r $PWD/spec/formats', true, ->
+        expect(cmd.stdout).toContain 'Using formats: my_format'
+        done()
