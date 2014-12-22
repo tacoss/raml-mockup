@@ -1,0 +1,10 @@
+language: node_js
+branches:
+  only:
+    - master
+node_js:
+  - 0.10
+before_script:
+  - 'npm install -g grunt-cli'
+script:
+  - 'grunt test:parts'
