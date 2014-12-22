@@ -1,9 +1,9 @@
 {
-  "name": "raml-kit",
+  "name": "raml-mockup",
   "version": "0.0.1",
-  "description": "Painless RAML development",
+  "description": "Express-based mocking service for RAML development",
   "bin": {
-    "raml": "bin/cli.js"
+    "raml-mockup": "bin/cli.js"
   },
   "author": {
     "name": "Alvaro Cabrera",
@@ -16,7 +16,10 @@
     "lodash": "^2.4.1",
     "minimist": "^1.1.0",
     "raml-parser": "^0.8.7",
-    "ramlev": "^0.1.6",
     "refaker": "^0.2.2"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-parts": "^0.3.0"
   }
 }
