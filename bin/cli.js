@@ -1,35 +1,80 @@
 #!/usr/bin/env node
 
-var argv = require('minimist')(process.argv.slice(2), {
+'use strict';
+
+var fs = require('fs'),
+    minimist = require('minimist');
+
+var argv = minimist(process.argv.slice(2), {
   alias: {
+    h: 'help',
+    v: 'version',
     d: 'directory',
     f: 'fakeroot',
-    v: 'version',
-    h: 'help',
     p: 'port'
   },
-  string: ['port', 'directory', 'fakeroot'],
+  string: ['fakeroot', 'directory'],
   boolean: ['help', 'version']
 });
 
-var actions = require('../lib'),
-    params = {};
+var exit = process.exit.bind(process);
 
-for (var key in argv) {
-  if (key.length > 1 && 'string' === typeof argv[key]) {
-    params[key] = argv[key];
-  }
+function isFile(filepath) {
+  return fs.existsSync(filepath) && fs.statSync(filepath).isFile();
 }
 
-var cmd  = argv._.shift(),
-    input = argv._.shift();
+function writeln(message, error) {
+  process[error ? 'stderr' : 'stdout'].write(message + '\n');
+}
 
-if ('start' === cmd) {
-  actions('server')(input, params);
-} else if ('test' === cmd) {
-  actions('test')(input, params);
-} else if ('init' === cmd) {
-  actions('init')(input, params);
+function usage(header) {
+  var message = [];
+
+  if (header) {
+    message.push(header);
+  }
+
+  message.push('Usage:');
+  message.push('  raml-server src/index.raml [OPTIONS]');
+  message.push('Options:');
+  message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
+  message.push('  -f, --fakeroot   Used to resolve $ref\'s using a directory as absolute URI');
+
+  return message.join('\n');
+}
+
+if (argv.version) {
+  var pkg = require('../package.json');
+
+  writeln([pkg.name, pkg.version].join(' '));
+  exit(1);
+} else if (argv.help) {
+  writeln(usage());
+  exit(1);
 } else {
-  actions('help')();
+  var file = argv._.shift();
+
+  if (!file) {
+    writeln(usage('Missing arguments'), true);
+    exit(1);
+  }
+
+  if (!isFile(file)) {
+    writeln(usage('Invalid input'), true);
+    exit(1);
+  }
+
+  var mock_server = require('../lib/mock-server');
+
+  mock_server({
+    raml: file,
+    port: argv.port,
+    fakeroot: argv.fakeroot,
+    directory: argv.directory
+  }, function(err) {
+    if (err) {
+      writeln(err, true);
+      exit(1);
+    }
+  });
 }
