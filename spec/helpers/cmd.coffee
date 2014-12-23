@@ -1,15 +1,11 @@
 exec = require('child_process').exec
 
-execCommand = (cmd, spawn, callback) ->
+execCommand = (cmd, callback) ->
   execCommand.stderr = ''
   execCommand.stdout = ''
   execCommand.exitStatus = null
 
   cli = ['./bin/cli.js']
-
-  if typeof spawn isnt 'boolean'
-    callback = spawn
-    spawn = false
 
   if typeof cmd is 'function'
     callback = cmd
@@ -26,20 +22,5 @@ execCommand = (cmd, spawn, callback) ->
   cli.on exitEventName, (code) ->
     execCommand.exitStatus = code
     callback()
-
-  if spawn
-    resume = ->
-      clearTimeout callback.ttk
-      callback.ttk = setTimeout ->
-        cli.kill 'SIGINT'
-      , 1000
-
-    cli.stdout.on 'data', (data) ->
-      execCommand.stdout += data
-      resume()
-
-    cli.stderr.on 'data', (data) ->
-      execCommand.stderr += data
-      resume()
 
 module.exports = execCommand
