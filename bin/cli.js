@@ -15,7 +15,7 @@ var argv = minimist(process.argv.slice(2), {
     w: 'watch',
     p: 'port'
   },
-  string: ['port', 'fakeroot', 'directory'],
+  string: ['port', 'formats', 'fakeroot', 'directory'],
   boolean: ['help', 'watch', 'version']
 });
 
