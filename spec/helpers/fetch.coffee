@@ -1,5 +1,9 @@
 http = require('http')
 
+build = (res, data) ->
+  json: data
+  status: res.statusCode
+
 module.exports = (url, callback) ->
   req = http.get url, (res) ->
     body = ''
@@ -13,7 +17,7 @@ module.exports = (url, callback) ->
       catch e
         null
 
-      callback null, body
+      callback null, build(res, body)
 
   req.on 'error', (err) ->
     callback err
