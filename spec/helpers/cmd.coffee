@@ -32,7 +32,7 @@ execCommand = (cmd, spawn, callback) ->
       clearTimeout callback.ttk
       callback.ttk = setTimeout ->
         cli.kill 'SIGINT'
-      , 100
+      , 1000
 
     cli.stdout.on 'data', (data) ->
       execCommand.stdout += data
