@@ -13,10 +13,11 @@ var argv = minimist(process.argv.slice(2), {
     f: 'fakeroot',
     r: 'formats',
     w: 'watch',
+    q: 'quiet',
     p: 'port'
   },
   string: ['port', 'formats', 'fakeroot', 'directory'],
-  boolean: ['help', 'watch', 'version']
+  boolean: ['help', 'quiet', 'watch', 'version']
 });
 
 var exit = process.exit.bind(process);
@@ -76,9 +77,9 @@ if (argv.version) {
     exit(1);
   }
 
-  var watching = argv._.shift() === '__watching';
+  var isWatching = argv._.shift() === '__watching';
 
-  if (argv.watch && !watching) {
+  if (argv.watch && !isWatching) {
     var gaze = require('gaze'),
         path = require('path'),
         child_process = require('child_process');
@@ -140,7 +141,8 @@ if (argv.version) {
     mock_server({
       raml: file,
       port: argv.port,
-      watch: watching,
+      quiet: argv.quiet,
+      watch: isWatching,
       formats: argv.formats,
       fakeroot: argv.fakeroot,
       directory: argv.directory
