@@ -8,6 +8,11 @@ module.exports = (url, callback) ->
       body += data
 
     res.on 'end', ->
+      body = try
+        JSON.parse body
+      catch e
+        null
+
       callback null, body
 
   req.on 'error', (err) ->
