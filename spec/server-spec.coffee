@@ -8,7 +8,7 @@ describe 'Mocking server', ->
   beforeEach (done) ->
     mockServer
       port: 9002
-      quiet: true
+      silent: true
       raml: './spec/fixtures/api.raml'
       formats: __dirname + '/formats'
       fakeroot: 'http://json-schema.org'

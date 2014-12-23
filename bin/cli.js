@@ -12,12 +12,12 @@ var argv = minimist(process.argv.slice(2), {
     d: 'directory',
     f: 'fakeroot',
     r: 'formats',
+    q: 'silent',
     w: 'watch',
-    q: 'quiet',
     p: 'port'
   },
   string: ['port', 'formats', 'fakeroot', 'directory'],
-  boolean: ['help', 'quiet', 'watch', 'version']
+  boolean: ['help', 'silent', 'watch', 'version']
 });
 
 var exit = process.exit.bind(process);
@@ -42,7 +42,8 @@ function usage(header) {
 
   message.push('Options:');
   message.push('  -p, --port       The port used for exposing the faked-api');
-  message.push('  -p, --watch      Enables file watching for reloading the mock-server');
+  message.push('  -w, --watch      Enable file watching/reloading the mock-server');
+  message.push('  -q, --silent     Disable the output reporting through the STDOUT');
   message.push('  -r, --formats    Require CommonJS-module for custom format generators');
   message.push('  -f, --fakeroot   Used to resolve $ref\'s using a directory as absolute URI');
   message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
@@ -141,8 +142,8 @@ if (argv.version) {
     mock_server({
       raml: file,
       port: argv.port,
-      quiet: argv.quiet,
       watch: isWatching,
+      silent: argv.silent,
       formats: argv.formats,
       fakeroot: argv.fakeroot,
       directory: argv.directory
