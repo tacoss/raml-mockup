@@ -6,6 +6,8 @@ mediaType:  application/json
 schemas:
   - song: !include ./schemas/song-schema.json
   - songs: !include ./schemas/songs-schema.json
+  - artist: !include ./schemas/artist-schema.json
+  - notFound: !include ./schemas/error404-schema.json
 
 /songs:
   get:
@@ -20,3 +22,19 @@ schemas:
         200:
           body:
             schema: song
+
+/artists/{name}:
+  get:
+    responses:
+      200:
+        body:
+          schema: artist
+          example: |
+            {
+              "firstName": "John Doe",
+              "birthday": "2014-12-23T15:05:00.000Z",
+              "alias": "jaydoe"
+            }
+      404:
+        body:
+          schema: notFound

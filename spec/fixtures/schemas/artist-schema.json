@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "faker": "name.findName"
+    },
+    "birthday": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "alias": {
+      "type": "string",
+      "chance": "word"
+    }
+  },
+  "required": ["firstName", "birthday", "alias"]
+}
