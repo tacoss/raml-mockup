@@ -12,10 +12,11 @@ var argv = minimist(process.argv.slice(2), {
     d: 'directory',
     f: 'fakeroot',
     r: 'formats',
+    w: 'watch',
     p: 'port'
   },
   string: ['port', 'fakeroot', 'directory'],
-  boolean: ['help', 'version']
+  boolean: ['help', 'watch', 'version']
 });
 
 var exit = process.exit.bind(process);
@@ -40,6 +41,7 @@ function usage(header) {
 
   message.push('Options:');
   message.push('  -p, --port       The port used for exposing the faked-api');
+  message.push('  -p, --watch      Enables file watching for reloading the mock-server');
   message.push('  -r, --formats    Require CommonJS-module for custom format generators');
   message.push('  -f, --fakeroot   Used to resolve $ref\'s using a directory as absolute URI');
   message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
@@ -47,6 +49,10 @@ function usage(header) {
   message.push('  -h, --help       Display this help');
 
   return message.join('\n');
+}
+
+function glob(dir) {
+  return dir.replace(/[\\\/]+$/, '') + '/**/*';
 }
 
 if (argv.version) {
@@ -70,18 +76,79 @@ if (argv.version) {
     exit(1);
   }
 
-  var mock_server = require('../lib/mock-server');
+  var watching = argv._.shift() === '__watching';
 
-  mock_server({
-    raml: file,
-    port: argv.port,
-    formats: argv.formats,
-    fakeroot: argv.fakeroot,
-    directory: argv.directory
-  }, function(err) {
-    if (err) {
-      writeln(err, true);
-      exit(1);
+  if (argv.watch && !watching) {
+    var gaze = require('gaze'),
+        path = require('path'),
+        child_process = require('child_process');
+
+    var src = [path.dirname(file) + '/**/*'];
+
+    if (argv.formats) {
+      if (!isFile(argv.formats)) {
+        src.push(glob(argv.formats));
+      } else {
+        src.push(argv.formats);
+      }
     }
-  });
+
+    if (argv.directory) {
+      src.push(glob(argv.directory));
+    }
+
+    src = src.map(function(v) {
+      return path.resolve(v);
+    });
+
+    gaze(src, function(err) {
+      if (err) {
+        writeln(err, true);
+        exit(1);
+      }
+
+      var child;
+
+      function spawn() {
+        if (child) {
+          child.kill('SIGINT');
+        }
+
+        var cmd = process.argv.join(' ')
+          .replace(/--?w(atch)?\s+\S+/) + ' __watching';
+
+        child = child_process.exec(cmd, function() {
+          // do nothing
+        });
+
+        child.stdout.pipe(process.stdout);
+        child.stderr.on('data', function(err) {
+          writeln((err.message ? err.message : ('Error: ' + err)).trim(), true);
+        });
+      }
+
+      this.on('all', function(evt, filepath) {
+        writeln('\nFile ' + evt + ' ' + filepath.replace(process.cwd() + '/', '') + ', reloading...\n');
+        spawn();
+      });
+
+      spawn();
+    });
+  } else {
+    var mock_server = require('../lib/mock-server');
+
+    mock_server({
+      raml: file,
+      port: argv.port,
+      watch: watching,
+      formats: argv.formats,
+      fakeroot: argv.fakeroot,
+      directory: argv.directory
+    }, function(err) {
+      if (err) {
+        writeln(err, true);
+        exit(1);
+      }
+    });
+  }
 }

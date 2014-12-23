@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.9.5",
+    "gaze": "^0.6.4",
     "json-schema-faker": "^0.1.2",
     "lodash": "^2.4.1",
     "minimist": "^1.1.0",
