@@ -15,13 +15,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "express": "^4.9.5",
+    "express": "^4.10.7",
     "gaze": "^0.6.4",
     "json-schema-faker": "^0.1.3",
     "lodash": "^2.4.1",
     "minimist": "^1.1.0",
-    "raml-parser": "^0.8.7",
-    "refaker": "^0.2.2"
+    "raml-parser": "^0.8.9",
+    "refaker": "^0.2.4"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
