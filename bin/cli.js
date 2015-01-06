@@ -117,7 +117,7 @@ if (argv.version) {
         }
 
         var cmd = process.argv.join(' ')
-          .replace(/--?w(atch)?\s+\S+/) + ' __watching';
+          .replace(/--?w(atch)?\s+/, '') + ' __watching';
 
         child = child_process.exec(cmd, function() {
           // do nothing
