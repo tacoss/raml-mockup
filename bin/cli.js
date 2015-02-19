@@ -3,7 +3,10 @@
 'use strict';
 
 var fs = require('fs'),
-    minimist = require('minimist');
+    minimist = require('minimist'),
+    cli_colors = require('cli-color-tty');
+
+var colors = cli_colors(typeof process.stdout.isTTY !== 'undefined' ? process.stdout.isTTY : true);
 
 var argv = minimist(process.argv.slice(2), {
   alias: {
@@ -57,6 +60,14 @@ function usage(header) {
 
 function glob(dir) {
   return dir.replace(/[\\\/]+$/, '') + '/**/*';
+}
+
+function log() {
+  var message = Array.prototype.slice.call(arguments).join('');
+
+  process.stdout.write(message.replace(/<(\w+)>([^<>]+)<\/\1>/g, function(matches, color, str) {
+    return colors[color](str);
+  }));
 }
 
 if (argv.version) {
@@ -119,7 +130,7 @@ if (argv.version) {
         }
 
         var cmd = process.argv.join(' ')
-          .replace(/--?w(atch)?\s+/, '') + ' __watching';
+          .replace(/--?w(atch)?\s+/, '') + ' -- __watching';
 
         child = child_process.exec(cmd, function() {
           // do nothing
@@ -142,6 +153,7 @@ if (argv.version) {
     var mock_server = require('../lib/mock-server');
 
     mock_server({
+      log: log,
       raml: file,
       port: argv.port,
       watch: isWatching,
