@@ -1,7 +1,7 @@
 cmd = require('./helpers/cmd')
 
 describe 'CLI options', ->
-  describe 'Missing arguments', (done) ->
+  describe 'Missing arguments', ->
     beforeEach cmd
 
     it 'should display "Missing arguments"', ->
@@ -10,7 +10,7 @@ describe 'CLI options', ->
     it 'should exit with 1', ->
       expect(cmd.exitStatus).toEqual 1
 
-  describe 'Invalid RAML-file', (done) ->
+  describe 'Invalid RAML-file', ->
     beforeEach (done) ->
       cmd './not_exists.raml', done
 
@@ -36,7 +36,7 @@ describe 'CLI options', ->
         it 'should fail on faking local references', ->
           expect(cmd.stderr).toContain "Error: ENOENT, no such file or directory 'spec/fixtures/song-schema.json'"
 
-  describe 'Usage info', (done) ->
+  describe 'Usage info', ->
     beforeEach (done) ->
       cmd '-h', done
 
@@ -46,7 +46,7 @@ describe 'CLI options', ->
     it 'should exit with 1', ->
       expect(cmd.exitStatus).toEqual 1
 
-  describe 'Version', (done) ->
+  describe 'Version', ->
     beforeEach (done) ->
       cmd '-v', done
 
