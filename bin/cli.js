@@ -30,8 +30,18 @@ function isFile(filepath) {
   return fs.existsSync(filepath) && fs.statSync(filepath).isFile();
 }
 
+function format(message) {
+  return message.replace(/<(\w+)>([^<>]+)<\/\1>/g, function(matches, color, str) {
+    return colors[color](str);
+  });
+}
+
 function writeln(message, error) {
-  process[error ? 'stderr' : 'stdout'].write(message + '\n');
+  if (error) {
+    process.stderr.write(message + '\n');
+  } else {
+    process.stdout.write(format(message) + '\n');
+  }
 }
 
 function usage(header) {
@@ -65,9 +75,7 @@ function glob(dir) {
 function log() {
   var message = Array.prototype.slice.call(arguments).join('');
 
-  process.stdout.write(message.replace(/<(\w+)>([^<>]+)<\/\1>/g, function(matches, color, str) {
-    return colors[color](str);
-  }));
+  process.stdout.write(format(message));
 }
 
 if (argv.version) {
@@ -143,7 +151,7 @@ if (argv.version) {
       }
 
       this.on('all', function(evt, filepath) {
-        writeln('\nFile ' + evt + ' ' + filepath.replace(process.cwd() + '/', '') + ', reloading...\n');
+        writeln('\n<blueBright>File ' + filepath.replace(process.cwd() + '/', '') + ' ' + evt + ', reloading...</blueBright>\n');
         spawn();
       });
 
