@@ -49,8 +49,8 @@ queryParams
 
 Use the following options for custom responses:
 
-- `__statusCode` &rarr; Force a specific statusCode if its available.
-- `__forceExample` &rarr; Force defined resource-example if its available.
+- `__statusCode=200` &rarr; Force a specific statusCode if its available.
+- `__forceExample=true` &rarr; Force defined resource-example if its available.
 
 Issues?
 -------
