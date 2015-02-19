@@ -31,7 +31,11 @@ function isFile(filepath) {
 }
 
 function format(message) {
-  return message.replace(/<(\w+)>([^<>]+)<\/\1>/g, function(matches, color, str) {
+  return message.replace(/<(\w+)(?::(\d+))?>([^<>]+)<\/\1>/g, function(matches, color, max, str) {
+    if (max > 0) {
+      str = (str + (new Array(+max + 1)).join(' ')).substr(0, max);
+    }
+
     return colors[color](str);
   });
 }
