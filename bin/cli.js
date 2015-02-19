@@ -65,7 +65,7 @@ function usage(header) {
   message.push('  -r, --formats    Require CommonJS-module for custom format generators');
   message.push('  -f, --fakeroot   Used to resolve $ref\'s using a directory as absolute URI');
   message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
-  message.push('  -s, --statuses   Override statusCode(s) for all matching responses');
+  message.push('  -s, --statuses   Override statusCode(s) for all matching resources');
   message.push('  -v, --version    Show the current version');
   message.push('  -h, --help       Display this help');
 
