@@ -2,4 +2,5 @@
 *.log
 .DS_Store
 /reports
+/generated
 /node_modules

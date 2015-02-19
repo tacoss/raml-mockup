@@ -5,4 +5,5 @@
 Gruntfile.*
 /spec
 /reports
+/generated
 /node_modules
