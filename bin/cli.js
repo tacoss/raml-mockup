@@ -76,9 +76,7 @@ function glob(dir) {
   return dir.replace(/[\\\/]+$/, '') + '/**/*';
 }
 
-function log() {
-  var message = Array.prototype.slice.call(arguments).join('');
-
+function log(message) {
   process.stdout.write(format(message));
 }
 
@@ -168,7 +166,6 @@ if (argv.version) {
       log: log,
       raml: file,
       port: argv.port,
-      watch: isWatching,
       silent: argv.silent,
       formats: argv.formats,
       statuses: argv.statuses,
@@ -178,6 +175,12 @@ if (argv.version) {
       if (err) {
         writeln(err, true);
         exit(1);
+      }
+
+      if (isWatching) {
+        writeln('Watching for changes...');
+      } else {
+        writeln('Listening for requests...');
       }
     });
   }
