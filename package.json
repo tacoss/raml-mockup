@@ -1,6 +1,6 @@
 {
   "name": "raml-mockup",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Express-based mocking service for RAML development",
   "bin": {
     "raml-mockup": "bin/cli.js"
