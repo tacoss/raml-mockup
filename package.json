@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "cli-color-tty": "^1.0.1",
-    "express": "^4.11.2",
+    "express": "^4.12.2",
     "gaze": "^0.5.1",
     "json-schema-faker": "^0.1.5",
     "lodash": "^2.4.1",
