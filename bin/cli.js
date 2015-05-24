@@ -101,12 +101,31 @@ if (argv.version) {
     exit(1);
   }
 
-  var isWatching = argv._.shift() === '__watching';
+  var mock_server = require('../lib/mock-server');
 
-  if (argv.watch && !isWatching) {
+  var start = function(next) {
+    mock_server({
+      log: log,
+      raml: file,
+      port: argv.port,
+      silent: argv.silent,
+      formats: argv.formats,
+      statuses: argv.statuses,
+      fakeroot: argv.fakeroot,
+      directory: argv.directory
+    }, function(err, close) {
+      if (err) {
+        writeln(err, true);
+        exit(1);
+      }
+
+      next(close);
+    });
+  };
+
+  if (argv.watch) {
     var gaze = require('gaze'),
-        path = require('path'),
-        child_process = require('child_process');
+        path = require('path');
 
     var src = [path.dirname(file) + '/**/*'];
 
@@ -127,61 +146,34 @@ if (argv.version) {
     });
 
     gaze(src, function(err) {
+      var stop;
+
       if (err) {
         writeln(err, true);
         exit(1);
       }
 
-      var child;
-
-      function spawn() {
-        if (child) {
-          child.kill('SIGINT');
+      var reload = function() {
+        if (stop) {
+          stop();
         }
 
-        var cmd = process.argv.join(' ')
-          .replace(/--?w(atch)?\s+/, '') + ' -- __watching';
-
-        child = child_process.exec(cmd, function() {
-          // do nothing
+        start(function(close) {
+          stop = close;
         });
-
-        child.stdout.pipe(process.stdout);
-        child.stderr.on('data', function(err) {
-          writeln((err.message ? err.message : ('Error: ' + err)).trim(), true);
-        });
-      }
+      };
 
       this.on('all', function(evt, filepath) {
         writeln('\n<blueBright>File ' + filepath.replace(process.cwd() + '/', '') + ' ' + evt + ', reloading...</blueBright>\n');
-        spawn();
+        reload();
       });
 
-      spawn();
+      reload();
+      writeln('Watching for changes...');
     });
   } else {
-    var mock_server = require('../lib/mock-server');
-
-    mock_server({
-      log: log,
-      raml: file,
-      port: argv.port,
-      silent: argv.silent,
-      formats: argv.formats,
-      statuses: argv.statuses,
-      fakeroot: argv.fakeroot,
-      directory: argv.directory
-    }, function(err) {
-      if (err) {
-        writeln(err, true);
-        exit(1);
-      }
-
-      if (isWatching) {
-        writeln('Watching for changes...');
-      } else {
-        writeln('Listening for requests...');
-      }
+    start(function() {
+      writeln('Listening for requests...');
     });
   }
 }
