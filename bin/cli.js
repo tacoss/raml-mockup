@@ -18,10 +18,11 @@ var argv = minimist(process.argv.slice(2), {
     r: 'formats',
     q: 'silent',
     w: 'watch',
-    p: 'port'
+    p: 'port',
+    e: 'forceExample'
   },
   string: ['port', 'statuses', 'formats', 'fakeroot', 'directory'],
-  boolean: ['help', 'silent', 'watch', 'version']
+  boolean: ['help', 'silent', 'watch', 'version', 'forceExample']
 });
 
 var exit = process.exit.bind(process);
@@ -59,15 +60,16 @@ function usage(header) {
   message.push('  raml-mockup src/index.raml [OPTIONS]');
 
   message.push('Options:');
-  message.push('  -p, --port       The port used for exposing the faked-api');
-  message.push('  -w, --watch      Enable file watching/reloading the mock-server');
-  message.push('  -q, --silent     Disable the output reporting through the STDOUT');
-  message.push('  -r, --formats    Require CommonJS-module for custom format generators');
-  message.push('  -f, --fakeroot   Used to resolve $ref\'s using a directory as absolute URI');
-  message.push('  -d, --directory  Used with the --fakeroot option for resoving $ref\'s');
-  message.push('  -s, --statuses   Override statusCode(s) for all matching resources');
-  message.push('  -v, --version    Show the current version');
-  message.push('  -h, --help       Display this help');
+  message.push('  -p, --port         The port used for exposing the faked-api');
+  message.push('  -w, --watch        Enable file watching/reloading the mock-server');
+  message.push('  -q, --silent       Disable the output reporting through the STDOUT');
+  message.push('  -r, --formats      Require CommonJS-module for custom format generators');
+  message.push('  -f, --fakeroot     Used to resolve $ref\'s using a directory as absolute URI');
+  message.push('  -d, --directory    Used with the --fakeroot option for resoving $ref\'s');
+  message.push('  -s, --statuses     Override statusCode(s) for all matching resources');
+  message.push('  -e, --forceExample Always return example, if available');
+  message.push('  -v, --version      Show the current version');
+  message.push('  -h, --help         Display this help');
 
   return message.join('\n');
 }
@@ -112,7 +114,8 @@ if (argv.version) {
       formats: argv.formats,
       statuses: argv.statuses,
       fakeroot: argv.fakeroot,
-      directory: argv.directory
+      directory: argv.directory,
+      forceExample: argv.forceExample,
     }, function(err, close) {
       if (err) {
         writeln(err, true);
