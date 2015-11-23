@@ -21,14 +21,14 @@
     "cli-color-tty": "^1.0.1",
     "express": "^4.12.3",
     "gaze": "^0.5.1",
-    "json-schema-faker": "^0.1.7",
+    "json-schema-faker": "^0.2.2",
     "lodash": "^2.4.2",
     "minimist": "^1.1.1",
-    "raml-parser": "^0.8.11",
-    "refaker": "^0.2.5"
+    "raml-parser": "^0.8.14",
+    "refaker": "^0.3.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-parts": "^0.4.0"
+    "grunt-parts": "^0.5.7"
   }
 }

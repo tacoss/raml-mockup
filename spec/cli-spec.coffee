@@ -34,7 +34,7 @@ describe 'CLI options', ->
           cmd './spec/fixtures/api.raml -f http://json-schema.org', done
 
         it 'should fail on faking local references', ->
-          expect(cmd.stderr).toContain "Error: ENOENT, no such file or directory 'spec/fixtures/song-schema.json'"
+          expect(cmd.stderr).toMatch /no such file or directory.*?spec\/fixtures\/song-schema.json/
 
   describe 'Usage info', ->
     beforeEach (done) ->

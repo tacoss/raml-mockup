@@ -115,7 +115,7 @@ if (argv.version) {
       statuses: argv.statuses,
       fakeroot: argv.fakeroot,
       directory: argv.directory,
-      forceExample: argv.forceExample,
+      forceExample: argv.forceExample
     }, function(err, close) {
       if (err) {
         writeln(err, true);
