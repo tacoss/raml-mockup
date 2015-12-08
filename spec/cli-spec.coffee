@@ -26,7 +26,7 @@ describe 'CLI options', ->
         cmd './spec/fixtures/api.raml', done
 
       it 'should fail on remote references', ->
-        expect(cmd.stderr).toContain 'Error: cannot parse http://json-schema.org/song-schema.json'
+        expect(cmd.stderr).toMatch /Error: cannot (reach|parse) http:\/\/json-schema.org\/song-schema.json/
 
     describe 'using --fakeroot http://json-schema.org', ->
       describe 'missing --directory', ->
