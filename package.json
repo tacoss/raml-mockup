@@ -25,7 +25,7 @@
     "lodash": "^2.4.2",
     "minimist": "^1.2.0",
     "raml-parser": "^0.8.14",
-    "refaker": "^0.3.0"
+    "refaker": "^0.3.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
