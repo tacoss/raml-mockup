@@ -16,12 +16,13 @@ var argv = minimist(process.argv.slice(2), {
     d: 'directory',
     f: 'fakeroot',
     r: 'formats',
+    t: 'timeout',
     q: 'silent',
     w: 'watch',
     p: 'port',
     e: 'forceExample'
   },
-  string: ['port', 'statuses', 'formats', 'fakeroot', 'directory'],
+  string: ['port', 'statuses', 'formats', 'timeout', 'fakeroot', 'directory'],
   boolean: ['help', 'silent', 'watch', 'version', 'forceExample']
 });
 
@@ -112,6 +113,7 @@ if (argv.version) {
       port: argv.port,
       silent: argv.silent,
       formats: argv.formats,
+      timeout: argv.timeout,
       statuses: argv.statuses,
       fakeroot: argv.fakeroot,
       directory: argv.directory,

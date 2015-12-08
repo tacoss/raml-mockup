@@ -38,6 +38,7 @@ Options
 - `--fakeroot` &rarr; BaseURI for references that will fake (i.e. `http://json-schema.org`).
 - `--statuses` &rarr; Use custom statusCode(s) for all matched resources.
 - `--formats` &rarr; CommonJS module-id or path for custom formats.
+- `--timeout` &rarr; Timeout requests from remote dereferencing.
 - `--silent` &rarr; Turns off the reporting through the STDOUT.
 - `--watch` &rarr; Enables the watch mode for mock-server.
 - `--port` &rarr; Custom port for mock-server.
