@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 var fs = require('fs'),
-    minimist = require('minimist'),
-    cli_colors = require('chalk');
+    chalk = require('chalk'),
+    minimist = require('minimist');
 
 var argv = minimist(process.argv.slice(2), {
   alias: {
@@ -28,21 +28,11 @@ function isFile(filepath) {
   return fs.existsSync(filepath) && fs.statSync(filepath).isFile();
 }
 
-function format(message) {
-  return message.replace(/<(\w+)(?::(\d+))?>([^<>]+)<\/\1>/g, function(matches, color, max, str) {
-    if (max > 0) {
-      str = (str + (new Array(+max + 1)).join(' ')).substr(0, max);
-    }
-
-    return cli_colors[color](str);
-  });
-}
-
 function writeln(message, error) {
   if (error) {
     process.stderr.write(message + '\n');
   } else {
-    process.stdout.write(format(message) + '\n');
+    process.stdout.write(message + '\n');
   }
 }
 
@@ -76,7 +66,7 @@ function glob(dir) {
 }
 
 function log(message) {
-  process.stdout.write(format(message));
+  process.stdout.write(message);
 }
 
 if (argv.version) {
@@ -160,8 +150,8 @@ if (argv.version) {
 
       reload._t = setTimeout(function () {
         if (evt && file) {
-          writeln('<gray>File ' + evt + ': '
-            + path.relative(process.cwd(), file) + ', reloading...</gray>');
+          writeln(chalk.gray('File ' + evt + ': '
+            + path.relative(process.cwd(), file) + ', reloading...'));
         }
 
         if (stop) {
@@ -195,11 +185,11 @@ if (argv.version) {
     });
 
     reload(function () {
-      writeln('<gray>Watching for changes...</gray>');
+      writeln(chalk.gray('Watching for changes...'));
     });
   } else {
     start(function() {
-      writeln('<gray>Listening for requests...</gray>');
+      writeln(chalk.gray('Listening for requests...'));
     });
   }
 }
