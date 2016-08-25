@@ -125,7 +125,7 @@ if (argv.version) {
   };
 
   if (argv.watch) {
-    var gaze = require('gaze'),
+    var chokidar = require('chokidar'),
         path = require('path');
 
     var src = [path.dirname(file) + '/**/*'];
@@ -146,35 +146,60 @@ if (argv.version) {
       return path.resolve(v);
     });
 
-    gaze(src, function(err) {
-      var stop;
+    var stop;
 
-      if (err) {
-        writeln(err, true);
-        exit(1);
+    function reload(ms, evt, file) {
+      var next;
+
+      if (typeof ms === 'function') {
+        next = ms;
+        ms = 0;
       }
 
-      var reload = function() {
+      clearTimeout(reload._t);
+
+      reload._t = setTimeout(function () {
+        if (evt && file) {
+          writeln('<gray>File ' + evt + ': '
+            + path.relative(process.cwd(), file) + ', reloading...</gray>');
+        }
+
         if (stop) {
           stop();
         }
 
         start(function(close) {
+          if (typeof next === 'function') {
+            next();
+          }
+
           stop = close;
         });
-      };
+      }, ms);
+    }
 
-      this.on('all', function(evt, filepath) {
-        writeln('\n<blueBright>File ' + filepath.replace(process.cwd() + '/', '') + ' ' + evt + ', reloading...</blueBright>\n');
-        reload();
-      });
+    chokidar.watch(src, {
+      persistent: true,
+      ignoreInitial: true
+    }).on('all', function(evt, file) {
+      switch (evt) {
+        case 'add':
+        case 'change':
+        case 'unlink':
+          reload(200, evt, file);
+        break;
+      }
+    }).on('error', function(e) {
+      writeln(e, true);
+      exit(1);
+    });
 
-      reload();
-      writeln('Watching for changes...');
+    reload(function () {
+      writeln('<gray>Watching for changes...</gray>');
     });
   } else {
     start(function() {
-      writeln('Listening for requests...');
+      writeln('<gray>Listening for requests...</gray>');
     });
   }
 }
