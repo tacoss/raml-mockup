@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "month": {
+      "type": "string"
+    },
+    "num": {
+      "type": "number"
+    },
+    "link": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "news": {
+      "type": "string"
+    },
+    "safe_title": {
+      "type": "string"
+    },
+    "transcript": {
+      "type": "string"
+    },
+    "alt": {
+      "type": "string"
+    },
+    "img": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "day": {
+      "type": "string"
+    }
+  }
+}
