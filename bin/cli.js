@@ -1,12 +1,8 @@
 #!/usr/bin/env node
 
-'use strict';
-
 var fs = require('fs'),
     minimist = require('minimist'),
-    cli_colors = require('cli-color-tty');
-
-var colors = cli_colors(typeof process.stdout.isTTY !== 'undefined' ? process.stdout.isTTY : true);
+    cli_colors = require('chalk');
 
 var argv = minimist(process.argv.slice(2), {
   alias: {
@@ -38,7 +34,7 @@ function format(message) {
       str = (str + (new Array(+max + 1)).join(' ')).substr(0, max);
     }
 
-    return colors[color](str);
+    return cli_colors[color](str);
   });
 }
 
