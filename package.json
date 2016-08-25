@@ -5,6 +5,14 @@
   "bin": {
     "raml-mockup": "bin/cli.js"
   },
+  "scripts": {
+    "dev": "jasmine-node spec --coffee --verbose --autoTest --watchFolders lib",
+    "dev:lint": "eslint lib",
+    "dev:spec": "jasmine-node spec --coffee --noStackTrace --captureExceptions",
+    "cover": "istanbul cover --root lib --x '**/spec/**' -- jasmine-node --coffee spec",
+    "cover:up": "codecov --file=coverage/lcov.info --disable=gcov -e TRAVIS_NODE_VERSION",
+    "test": "npm run dev:lint && npm run dev:spec"
+  },
   "author": {
     "name": "Alvaro Cabrera",
     "email": "pateketrueke@gmail.com"
@@ -18,20 +26,19 @@
   },
   "license": "MIT",
   "dependencies": {
-    "cli-color-tty": "^1.0.1",
+    "chalk": "^1.1.3",
+    "chokidar": "^1.6.0",
     "cors": "^2.7.1",
     "express": "^4.13.3",
-    "gaze": "^0.5.2",
     "json-schema-faker": "^0.3.0",
-    "lodash": "^2.4.2",
     "minimist": "^1.2.0",
-    "raml-parser": "^0.8.14",
+    "raml-1-parser": "^1.0.0",
     "refaker": "^0.3.1"
   },
   "devDependencies": {
-    "coveralls": "^2.11.12",
-    "grunt": "^0.4.5",
-    "grunt-eslint": "^19.0.0",
-    "grunt-parts": "^0.5.7"
+    "codecov": "^1.0.1",
+    "eslint": "^3.3.1",
+    "istanbul": "^0.4.5",
+    "jasmine-node": "^2.0.0-beta4"
   }
 }
