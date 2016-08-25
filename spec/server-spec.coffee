@@ -31,9 +31,9 @@ describe 'Mocking server', ->
   describe 'making requests', ->
     it 'should responds according the mocked resource', (done) ->
       fetch 'http://localhost:9002/songs/1', (err, response) ->
-       expect(response.json).toEqual title: 'my value'
-       expect(response.status).toBe 200
-       done()
+        expect(response.json).toEqual title: 'my value'
+        expect(response.status).toBe 200
+        done()
 
     it 'should fail quietly if the mocked resource is missing', (done) ->
       fetch 'http://localhost:9002/not_exists', (err, response) ->
