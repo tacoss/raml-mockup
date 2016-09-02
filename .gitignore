@@ -2,5 +2,6 @@
 *.log
 .DS_Store
 /reports
+/coverage
 /generated
 /node_modules
