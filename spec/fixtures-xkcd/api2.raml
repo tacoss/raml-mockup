@@ -1,0 +1,31 @@
+#%RAML 1.0
+title: XKCD
+baseUri: http://xkcd.com
+types:
+  comic:
+    type: !include schemas/comic-schema.json
+    example: !include examples/comic-example.json
+/{comicId}/info.0.json:
+  uriParameters:
+    comicId:
+      type: number
+  get:
+    description: |
+      Fetch comics and metadata  by comic id.
+    responses:
+      200:
+        body:
+          application/json:
+            type: comic
+/info.0.json:
+  get:
+    description: |
+      Fetch current comic and metadata.
+    responses:
+      200:
+        body:
+          application/json:
+            type: comic
+documentation:
+  - title: Headline
+    content: !include docs/headline.md
